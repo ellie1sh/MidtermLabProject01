@@ -1,7 +1,9 @@
 /**
  * Converter class for Infix to Postfix conversion and Postfix evaluation
- * This class implements the algorithms specified in the PDF requirements
- * for Data Structures Midterm Laboratory Project 1
+ * This class provides the basic structure and some utility methods
+ * 
+ * NOTE: The main conversion and evaluation methods are left as placeholders
+ * for the next coder to implement according to the PDF specifications
  * 
  * @author [Student Name]
  * @version 1.0
@@ -10,303 +12,86 @@
 public class Converter {
     
     /**
-     * Convert decimal number to binary using stack
-     * Algorithm:
-     * 1. Create a stack to store remainders
-     * 2. Divide the number by 2 repeatedly
-     * 3. Push each remainder onto the stack
-     * 4. Pop all elements to get binary representation
+     * Convert infix expression to postfix with detailed table output
      * 
-     * Time Complexity: O(log n)
-     * Space Complexity: O(log n)
+     * TODO: Implement the exact algorithm from PDF pages 4-5
+     * Algorithm should:
+     * 1. Use a stack for operators
+     * 2. Process each symbol in the infix expression
+     * 3. Handle operator precedence: ^ (highest), multiply/divide, add/subtract (lowest)
+     * 4. Handle parentheses correctly
+     * 5. Print step-by-step table showing Symbol, Postfix Expression, Operator Stack
      * 
-     * @param decimal The decimal number to convert
-     * @return Binary representation as a string
+     * @param infixExpression The infix expression to convert (no spaces)
+     * @return The postfix expression (with spaces between tokens)
      */
-    public static String decimalToBinary(int decimal) {
-        if (decimal == 0) {
-            return "0";
-        }
+    public static String convertInfixToPostfixWithTable(String infixExpression) {
+        // TODO: Implement this method for the next coder
+        // This should follow the exact algorithm from the PDF
         
-        Stack<Integer> stack = new Stack<>();
-        int number = Math.abs(decimal); // Handle negative numbers
+        System.out.println("TODO: Implement infix to postfix conversion with table output");
+        System.out.println("Input: " + infixExpression);
         
-        // Push remainders onto stack
-        while (number > 0) {
-            stack.push(number % 2);
-            number = number / 2;
-        }
-        
-        // Build binary string by popping from stack
-        StringBuilder binary = new StringBuilder();
-        if (decimal < 0) {
-            binary.append("-");
-        }
-        
-        while (!stack.isEmpty()) {
-            binary.append(stack.pop());
-        }
-        
-        return binary.toString();
+        // Placeholder return - next coder should implement the full algorithm
+        return "TODO: Implement conversion";
     }
     
     /**
-     * Convert decimal number to octal using stack
-     * Algorithm:
-     * 1. Create a stack to store remainders
-     * 2. Divide the number by 8 repeatedly
-     * 3. Push each remainder onto the stack
-     * 4. Pop all elements to get octal representation
+     * Evaluate postfix expression with detailed table output
      * 
-     * Time Complexity: O(log n)
-     * Space Complexity: O(log n)
+     * TODO: Implement the exact algorithm from PDF pages 6-7
+     * Algorithm should:
+     * 1. Use a stack for operands
+     * 2. Process each token in the postfix expression
+     * 3. Push operands to stack, perform operations with operators
+     * 4. Print step-by-step table showing Symbol, Operand1, Operand2, Value, Stack
      * 
-     * @param decimal The decimal number to convert
-     * @return Octal representation as a string
+     * @param postfixExpression The postfix expression to evaluate (space-separated)
+     * @return The final result of the evaluation
      */
-    public static String decimalToOctal(int decimal) {
-        if (decimal == 0) {
-            return "0";
-        }
+    public static double evaluatePostfixWithTable(String postfixExpression) {
+        // TODO: Implement this method for the next coder
+        // This should follow the exact algorithm from the PDF
         
-        Stack<Integer> stack = new Stack<>();
-        int number = Math.abs(decimal);
+        System.out.println("TODO: Implement postfix evaluation with table output");
+        System.out.println("Input: " + postfixExpression);
         
-        // Push remainders onto stack
-        while (number > 0) {
-            stack.push(number % 8);
-            number = number / 8;
-        }
-        
-        // Build octal string by popping from stack
-        StringBuilder octal = new StringBuilder();
-        if (decimal < 0) {
-            octal.append("-");
-        }
-        
-        while (!stack.isEmpty()) {
-            octal.append(stack.pop());
-        }
-        
-        return octal.toString();
+        // Placeholder return - next coder should implement the full algorithm
+        return 0.0;
     }
     
     /**
-     * Convert decimal number to hexadecimal using stack
-     * Algorithm:
-     * 1. Create a stack to store remainders
-     * 2. Divide the number by 16 repeatedly
-     * 3. Push each remainder onto the stack (convert 10-15 to A-F)
-     * 4. Pop all elements to get hexadecimal representation
+     * Check if character is an operand (letter or digit)
      * 
-     * Time Complexity: O(log n)
-     * Space Complexity: O(log n)
-     * 
-     * @param decimal The decimal number to convert
-     * @return Hexadecimal representation as a string
+     * @param ch Character to check
+     * @return true if operand, false otherwise
      */
-    public static String decimalToHexadecimal(int decimal) {
-        if (decimal == 0) {
-            return "0";
-        }
-        
-        Stack<String> stack = new Stack<>();
-        int number = Math.abs(decimal);
-        String[] hexDigits = {"0", "1", "2", "3", "4", "5", "6", "7", 
-                             "8", "9", "A", "B", "C", "D", "E", "F"};
-        
-        // Push remainders onto stack
-        while (number > 0) {
-            stack.push(hexDigits[number % 16]);
-            number = number / 16;
-        }
-        
-        // Build hexadecimal string by popping from stack
-        StringBuilder hex = new StringBuilder();
-        if (decimal < 0) {
-            hex.append("-");
-        }
-        
-        while (!stack.isEmpty()) {
-            hex.append(stack.pop());
-        }
-        
-        return hex.toString();
+    public static boolean isOperand(char ch) {
+        return Character.isLetterOrDigit(ch);
     }
     
     /**
-     * Convert infix expression to postfix using stack (Shunting Yard Algorithm)
-     * Algorithm:
-     * 1. Create a stack for operators
-     * 2. Scan the infix expression from left to right
-     * 3. If operand, add to output
-     * 4. If operator, pop operators with higher/equal precedence
-     * 5. Handle parentheses appropriately
+     * Check if character is a valid operator
+     * Based on PDF requirements: +, -, *, /, ^
      * 
-     * Time Complexity: O(n)
-     * Space Complexity: O(n)
-     * 
-     * @param infix The infix expression as a string
-     * @return Postfix expression as a string
+     * @param ch Character to check
+     * @return true if valid operator, false otherwise
      */
-    public static String infixToPostfix(String infix) {
-        Stack<Character> operatorStack = new Stack<>();
-        StringBuilder postfix = new StringBuilder();
-        
-        for (int i = 0; i < infix.length(); i++) {
-            char ch = infix.charAt(i);
-            
-            // Skip whitespace
-            if (ch == ' ') {
-                continue;
-            }
-            
-            // If operand (digit or letter), add to output
-            if (Character.isLetterOrDigit(ch)) {
-                postfix.append(ch);
-            }
-            // If opening parenthesis, push to stack
-            else if (ch == '(') {
-                operatorStack.push(ch);
-            }
-            // If closing parenthesis, pop until opening parenthesis
-            else if (ch == ')') {
-                while (!operatorStack.isEmpty() && operatorStack.peek() != '(') {
-                    postfix.append(operatorStack.pop());
-                }
-                if (!operatorStack.isEmpty()) {
-                    operatorStack.pop(); // Remove the opening parenthesis
-                }
-            }
-            // If operator
-            else if (isOperator(ch)) {
-                while (!operatorStack.isEmpty() && 
-                       precedence(operatorStack.peek()) >= precedence(ch)) {
-                    postfix.append(operatorStack.pop());
-                }
-                operatorStack.push(ch);
-            }
-        }
-        
-        // Pop remaining operators
-        while (!operatorStack.isEmpty()) {
-            postfix.append(operatorStack.pop());
-        }
-        
-        return postfix.toString();
-    }
-    
-    /**
-     * Convert infix expression to prefix using stack
-     * Algorithm:
-     * 1. Reverse the infix expression
-     * 2. Replace '(' with ')' and vice versa
-     * 3. Convert to postfix
-     * 4. Reverse the result
-     * 
-     * Time Complexity: O(n)
-     * Space Complexity: O(n)
-     * 
-     * @param infix The infix expression as a string
-     * @return Prefix expression as a string
-     */
-    public static String infixToPrefix(String infix) {
-        // Step 1: Reverse the infix expression
-        StringBuilder reversed = new StringBuilder();
-        for (int i = infix.length() - 1; i >= 0; i--) {
-            char ch = infix.charAt(i);
-            if (ch == '(') {
-                reversed.append(')');
-            } else if (ch == ')') {
-                reversed.append('(');
-            } else {
-                reversed.append(ch);
-            }
-        }
-        
-        // Step 2: Convert to postfix
-        String postfix = infixToPostfix(reversed.toString());
-        
-        // Step 3: Reverse the postfix to get prefix
-        StringBuilder prefix = new StringBuilder();
-        for (int i = postfix.length() - 1; i >= 0; i--) {
-            prefix.append(postfix.charAt(i));
-        }
-        
-        return prefix.toString();
-    }
-    
-    /**
-     * Evaluate postfix expression using stack
-     * Algorithm:
-     * 1. Create a stack for operands
-     * 2. Scan postfix expression from left to right
-     * 3. If operand, push to stack
-     * 4. If operator, pop two operands, perform operation, push result
-     * 5. Final result is the only element left in stack
-     * 
-     * Time Complexity: O(n)
-     * Space Complexity: O(n)
-     * 
-     * @param postfix The postfix expression as a string
-     * @return The evaluated result
-     * @throws RuntimeException if expression is invalid
-     */
-    public static double evaluatePostfix(String postfix) {
-        Stack<Double> operandStack = new Stack<>();
-        
-        for (int i = 0; i < postfix.length(); i++) {
-            char ch = postfix.charAt(i);
-            
-            // Skip whitespace
-            if (ch == ' ') {
-                continue;
-            }
-            
-            // If operand (digit), push to stack
-            if (Character.isDigit(ch)) {
-                operandStack.push((double)(ch - '0'));
-            }
-            // If operator, perform operation
-            else if (isOperator(ch)) {
-                if (operandStack.size() < 2) {
-                    throw new RuntimeException("Invalid postfix expression");
-                }
-                
-                double operand2 = operandStack.pop();
-                double operand1 = operandStack.pop();
-                double result = performOperation(operand1, operand2, ch);
-                operandStack.push(result);
-            }
-        }
-        
-        if (operandStack.size() != 1) {
-            throw new RuntimeException("Invalid postfix expression");
-        }
-        
-        return operandStack.pop();
-    }
-    
-    /**
-     * Check if a character is an operator
-     * 
-     * @param ch The character to check
-     * @return true if the character is an operator, false otherwise
-     */
-    private static boolean isOperator(char ch) {
+    public static boolean isOperator(char ch) {
         return ch == '+' || ch == '-' || ch == '*' || ch == '/' || ch == '^';
     }
     
     /**
-     * Get the precedence of an operator
-     * Algorithm:
-     * 1. Return precedence value based on operator type
-     * 2. Higher number means higher precedence
+     * Get operator precedence
+     * Based on PDF specifications:
+     * 1. ^ (Exponentiation) - highest precedence
+     * 2. *, / (Multiplication, Division) - medium precedence  
+     * 3. +, - (Addition, Subtraction) - lowest precedence
      * 
      * @param operator The operator character
      * @return Precedence value (higher number = higher precedence)
      */
-    private static int precedence(char operator) {
+    public static int getPrecedence(char operator) {
         switch (operator) {
             case '+':
             case '-':
@@ -322,6 +107,21 @@ public class Converter {
     }
     
     /**
+     * Check if operator1 has higher or equal precedence than operator2
+     * Note: Exponentiation is right-to-left associative, others are left-to-right
+     * 
+     * TODO: Next coder should implement proper associativity rules from PDF
+     * 
+     * @param operator1 First operator
+     * @param operator2 Second operator
+     * @return true if operator1 has higher or equal precedence
+     */
+    public static boolean hasHigherOrEqualPrecedence(char operator1, char operator2) {
+        // TODO: Implement proper precedence comparison with associativity rules
+        return getPrecedence(operator1) >= getPrecedence(operator2);
+    }
+    
+    /**
      * Perform arithmetic operation on two operands
      * 
      * @param operand1 First operand
@@ -330,7 +130,7 @@ public class Converter {
      * @return Result of the operation
      * @throws RuntimeException if division by zero or invalid operator
      */
-    private static double performOperation(double operand1, double operand2, char operator) {
+    public static double performOperation(double operand1, double operand2, char operator) {
         switch (operator) {
             case '+':
                 return operand1 + operand2;
@@ -351,56 +151,34 @@ public class Converter {
     }
     
     /**
-     * Check if parentheses in an expression are balanced using stack
-     * Algorithm:
-     * 1. Create a stack for opening brackets
-     * 2. Scan expression from left to right
-     * 3. Push opening brackets to stack
-     * 4. For closing brackets, check if matching opening bracket exists
-     * 5. Expression is balanced if stack is empty at the end
+     * Validate infix expression format
      * 
-     * Time Complexity: O(n)
-     * Space Complexity: O(n)
+     * TODO: Next coder should implement proper validation
+     * - Check for balanced parentheses
+     * - Check for valid characters only
+     * - Check for proper operator/operand sequence
      * 
-     * @param expression The expression to check
-     * @return true if parentheses are balanced, false otherwise
+     * @param expression Expression to validate
+     * @return true if valid, false otherwise
      */
-    public static boolean areParenthesesBalanced(String expression) {
-        Stack<Character> stack = new Stack<>();
-        
-        for (int i = 0; i < expression.length(); i++) {
-            char ch = expression.charAt(i);
-            
-            // Push opening brackets
-            if (ch == '(' || ch == '[' || ch == '{') {
-                stack.push(ch);
-            }
-            // Check closing brackets
-            else if (ch == ')' || ch == ']' || ch == '}') {
-                if (stack.isEmpty()) {
-                    return false;
-                }
-                
-                char top = stack.pop();
-                if (!isMatchingPair(top, ch)) {
-                    return false;
-                }
-            }
-        }
-        
-        return stack.isEmpty();
+    public static boolean isValidInfixExpression(String expression) {
+        // TODO: Implement proper validation logic
+        return expression != null && !expression.trim().isEmpty();
     }
     
     /**
-     * Check if two brackets form a matching pair
+     * Validate postfix expression format
      * 
-     * @param opening The opening bracket
-     * @param closing The closing bracket
-     * @return true if they form a matching pair, false otherwise
+     * TODO: Next coder should implement proper validation
+     * - Check that tokens are space-separated
+     * - Check for valid operands and operators only
+     * - Check that expression can be evaluated
+     * 
+     * @param expression Expression to validate
+     * @return true if valid, false otherwise
      */
-    private static boolean isMatchingPair(char opening, char closing) {
-        return (opening == '(' && closing == ')') ||
-               (opening == '[' && closing == ']') ||
-               (opening == '{' && closing == '}');
+    public static boolean isValidPostfixExpression(String expression) {
+        // TODO: Implement proper validation logic
+        return expression != null && !expression.trim().isEmpty();
     }
 }
