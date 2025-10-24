@@ -1,7 +1,11 @@
+import java.util.Scanner;
+
 /**
- * Main class to demonstrate the functionality of Node, Stack, and Converter classes
- * This class contains the main method and various test methods to showcase
- * the implementation of data structures and algorithms
+ * Main class - Menu-based console application for Infix to Postfix conversion
+ * and Postfix expression evaluation as specified in the PDF requirements
+ * 
+ * Data Structures Midterm Laboratory Project 1
+ * Activity: Conversion of infix to postfix expression and Evaluation of a postfix expression
  * 
  * @author [Student Name]
  * @version 1.0
@@ -9,278 +13,207 @@
  */
 public class Main {
     
+    private static Scanner scanner = new Scanner(System.in);
+    private static InfixToPostfixConverter converter = new InfixToPostfixConverter();
+    private static PostfixEvaluator evaluator = new PostfixEvaluator();
+    
     /**
      * Main method - entry point of the program
-     * Demonstrates the functionality of all implemented classes
+     * Provides menu-based interface as required by PDF
      * 
      * @param args Command line arguments (not used)
      */
     public static void main(String[] args) {
-        System.out.println("=== Data Structures Midterm Laboratory Project ===\n");
+        displayWelcomeMessage();
+        displaySupportedOperators();
         
-        // Test Node class
-        testNodeClass();
+        boolean continueProgram = true;
         
-        // Test Stack class
-        testStackClass();
+        while (continueProgram) {
+            displayMainMenu();
+            int choice = getMenuChoice();
+            
+            switch (choice) {
+                case 1:
+                    handleInfixToPostfixConversion();
+                    break;
+                case 2:
+                    handlePostfixEvaluation();
+                    break;
+                case 3:
+                    displaySupportedOperators();
+                    break;
+                case 4:
+                    runTestExamples();
+                    break;
+                case 5:
+                    continueProgram = false;
+                    System.out.println("\nThank you for using the Expression Converter!");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+            
+            if (continueProgram) {
+                System.out.println("\nPress Enter to continue...");
+                scanner.nextLine();
+            }
+        }
         
-        // Test Converter class
-        testConverterClass();
-        
-        System.out.println("\n=== All tests completed successfully! ===");
+        scanner.close();
     }
     
     /**
-     * Test the Node class functionality
-     * Demonstrates node creation, data manipulation, and linking
+     * Display welcome message and project information
      */
-    private static void testNodeClass() {
-        System.out.println("1. TESTING NODE CLASS");
-        System.out.println("=====================");
-        
-        // Test default constructor
-        Node<String> node1 = new Node<>();
-        System.out.println("Default node: " + node1);
-        
-        // Test parameterized constructor
-        Node<String> node2 = new Node<>("Hello");
-        System.out.println("Node with data: " + node2);
-        
-        // Test linking nodes
-        Node<String> node3 = new Node<>("World", node2);
-        System.out.println("Linked node: " + node3 + " -> " + node3.getNext());
-        
-        // Test setters and getters
-        node1.setData("First");
-        node1.setNext(node2);
-        System.out.println("Modified node: " + node1 + " -> " + node1.getNext());
-        
-        // Test hasNext method
-        System.out.println("Node1 has next: " + node1.hasNext());
-        System.out.println("Node2 has next: " + node2.hasNext());
-        
+    private static void displayWelcomeMessage() {
+        System.out.println("===============================================");
+        System.out.println("    DATA STRUCTURES MIDTERM PROJECT 1");
+        System.out.println("===============================================");
+        System.out.println("Activity: Conversion of infix to postfix expression");
+        System.out.println("          and Evaluation of postfix expression");
+        System.out.println("===============================================\n");
+    }
+    
+    /**
+     * Display information about supported operators
+     */
+    private static void displaySupportedOperators() {
+        System.out.println("SUPPORTED OPERATORS:");
+        System.out.println("  + : Addition");
+        System.out.println("  - : Subtraction");
+        System.out.println("  * : Multiplication");
+        System.out.println("  / : Division");
+        System.out.println("  ^ : Exponentiation");
+        System.out.println("  ( ) : Parentheses for grouping");
+        System.out.println("\nOPERATOR PRECEDENCE (highest to lowest):");
+        System.out.println("  1. ^ (Exponentiation) - Right-to-left associativity");
+        System.out.println("  2. *, / (Multiplication, Division) - Left-to-right");
+        System.out.println("  3. +, - (Addition, Subtraction) - Left-to-right");
         System.out.println();
     }
     
     /**
-     * Test the Stack class functionality
-     * Demonstrates all stack operations with detailed output
+     * Display the main menu
      */
-    private static void testStackClass() {
-        System.out.println("2. TESTING STACK CLASS");
-        System.out.println("======================");
-        
-        // Create a new stack
-        Stack<Integer> stack = new Stack<>();
-        System.out.println("Created empty stack. Is empty: " + stack.isEmpty());
-        System.out.println("Stack size: " + stack.size());
-        
-        // Test push operations
-        System.out.println("\n--- Push Operations ---");
-        for (int i = 1; i <= 5; i++) {
-            stack.push(i * 10);
-            System.out.println("Pushed: " + (i * 10) + ", Stack size: " + stack.size());
-        }
-        
-        // Display stack
-        System.out.println("\nStack contents:");
-        stack.display();
-        
-        // Test peek operation
-        System.out.println("\n--- Peek Operation ---");
-        System.out.println("Top element (peek): " + stack.peek());
-        System.out.println("Stack size after peek: " + stack.size());
-        
-        // Test pop operations
-        System.out.println("\n--- Pop Operations ---");
-        while (!stack.isEmpty()) {
-            int popped = stack.pop();
-            System.out.println("Popped: " + popped + ", Stack size: " + stack.size());
-        }
-        
-        // Test with different data types
-        System.out.println("\n--- Testing with Strings ---");
-        Stack<String> stringStack = new Stack<>();
-        String[] words = {"Java", "Data", "Structures", "Stack", "Implementation"};
-        
-        for (String word : words) {
-            stringStack.push(word);
-        }
-        
-        stringStack.display();
-        
-        // Test search functionality
-        System.out.println("\nSearching for 'Stack': Position " + stringStack.search("Stack"));
-        System.out.println("Searching for 'Python': Position " + stringStack.search("Python"));
-        
-        // Test toArray method
-        System.out.println("\nStack as array:");
-        Object[] stackArray = stringStack.toArray();
-        for (int i = 0; i < stackArray.length; i++) {
-            System.out.print(stackArray[i]);
-            if (i < stackArray.length - 1) System.out.print(", ");
-        }
-        System.out.println();
-        
-        System.out.println();
+    private static void displayMainMenu() {
+        System.out.println("\n=== MAIN MENU ===");
+        System.out.println("1. Convert Infix to Postfix Expression");
+        System.out.println("2. Evaluate Postfix Expression");
+        System.out.println("3. View Supported Operators");
+        System.out.println("4. Run Test Examples from PDF");
+        System.out.println("5. Exit");
+        System.out.print("\nEnter your choice (1-5): ");
     }
     
     /**
-     * Test the Converter class functionality
-     * Demonstrates various conversion algorithms
+     * Get menu choice from user with input validation
+     * 
+     * @return Valid menu choice (1-5)
      */
-    private static void testConverterClass() {
-        System.out.println("3. TESTING CONVERTER CLASS");
-        System.out.println("===========================");
-        
-        // Test number system conversions
-        testNumberSystemConversions();
-        
-        // Test expression conversions
-        testExpressionConversions();
-        
-        // Test expression evaluation
-        testExpressionEvaluation();
-        
-        // Test parentheses balancing
-        testParenthesesBalancing();
+    private static int getMenuChoice() {
+        while (true) {
+            try {
+                String input = scanner.nextLine().trim();
+                int choice = Integer.parseInt(input);
+                if (choice >= 1 && choice <= 5) {
+                    return choice;
+                } else {
+                    System.out.print("Please enter a number between 1 and 5: ");
+                }
+            } catch (NumberFormatException e) {
+                System.out.print("Please enter a valid number: ");
+            }
+        }
     }
     
     /**
-     * Test number system conversion methods
+     * Handle infix to postfix conversion
      */
-    private static void testNumberSystemConversions() {
-        System.out.println("--- Number System Conversions ---");
+    private static void handleInfixToPostfixConversion() {
+        System.out.println("\n=== INFIX TO POSTFIX CONVERSION ===");
+        System.out.println("NOTE: Input expression should not have spaces between characters.");
+        System.out.println("Example: A+B*C or (A+B)*C");
+        System.out.print("\nEnter infix expression: ");
         
-        int[] testNumbers = {10, 25, 100, 255, 1024};
+        String infixExpression = scanner.nextLine().trim();
         
-        for (int num : testNumbers) {
-            System.out.println("Decimal: " + num);
-            System.out.println("  Binary: " + Converter.decimalToBinary(num));
-            System.out.println("  Octal: " + Converter.decimalToOctal(num));
-            System.out.println("  Hexadecimal: " + Converter.decimalToHexadecimal(num));
-            System.out.println();
+        if (infixExpression.isEmpty()) {
+            System.out.println("Error: Empty expression entered.");
+            return;
         }
         
-        // Test negative numbers
-        System.out.println("Testing negative numbers:");
-        System.out.println("Decimal: -42");
-        System.out.println("  Binary: " + Converter.decimalToBinary(-42));
-        System.out.println("  Octal: " + Converter.decimalToOctal(-42));
-        System.out.println("  Hexadecimal: " + Converter.decimalToHexadecimal(-42));
-        System.out.println();
+        InfixToPostfixConverter.ConversionResult result = converter.convertWithTable(infixExpression);
+        
+        if (result.isSuccess()) {
+            System.out.println("\nCONVERSION SUCCESSFUL!");
+            System.out.println("Postfix Expression: " + result.getPostfixExpression());
+        } else {
+            System.out.println("\nCONVERSION FAILED!");
+            System.out.println(result.getErrorMessage());
+        }
     }
     
     /**
-     * Test expression conversion methods
+     * Handle postfix expression evaluation
      */
-    private static void testExpressionConversions() {
-        System.out.println("--- Expression Conversions ---");
+    private static void handlePostfixEvaluation() {
+        System.out.println("\n=== POSTFIX EXPRESSION EVALUATION ===");
+        System.out.println("NOTE: Operands and operators must be separated by spaces.");
+        System.out.println("Example: 6 2 3 + - 3 8 2 / + * 2 ^ 3 +");
+        System.out.print("\nEnter postfix expression: ");
         
-        String[] infixExpressions = {
+        String postfixExpression = scanner.nextLine().trim();
+        
+        if (postfixExpression.isEmpty()) {
+            System.out.println("Error: Empty expression entered.");
+            return;
+        }
+        
+        PostfixEvaluator.EvaluationResult result = evaluator.evaluateWithTable(postfixExpression);
+        
+        if (result.isSuccess()) {
+            System.out.println("\nEVALUATION SUCCESSFUL!");
+            System.out.printf("Final Result: %.2f%n", result.getResult());
+        } else {
+            System.out.println("\nEVALUATION FAILED!");
+            System.out.println(result.getErrorMessage());
+        }
+    }
+    
+    /**
+     * Run test examples from the PDF
+     */
+    private static void runTestExamples() {
+        System.out.println("\n=== RUNNING TEST EXAMPLES FROM PDF ===");
+        
+        // Test 1: Infix to Postfix conversion example from PDF
+        System.out.println("\n1. Testing Infix to Postfix Conversion:");
+        System.out.println("   Example from PDF: ((A-(B+C))*D)^(E+F)");
+        
+        String pdfInfixExample = "((A-(B+C))*D)^(E+F)";
+        InfixToPostfixConverter.ConversionResult conversionResult = converter.convertWithTable(pdfInfixExample);
+        
+        // Test 2: Postfix evaluation example from PDF
+        System.out.println("\n2. Testing Postfix Evaluation:");
+        System.out.println("   Example from PDF: 6 2 3 + - 3 8 2 / + * 2 ^ 3 +");
+        
+        String pdfPostfixExample = "6 2 3 + - 3 8 2 / + * 2 ^ 3 +";
+        PostfixEvaluator.EvaluationResult evaluationResult = evaluator.evaluateWithTable(pdfPostfixExample);
+        
+        // Additional test cases
+        System.out.println("\n3. Additional Test Cases:");
+        
+        String[] additionalInfixTests = {
             "A+B*C",
-            "(A+B)*C",
+            "(A+B)*C", 
             "A+B*C-D",
-            "(A+B)*(C-D)",
             "A^B+C*D"
         };
         
-        for (String infix : infixExpressions) {
-            System.out.println("Infix: " + infix);
-            System.out.println("  Postfix: " + Converter.infixToPostfix(infix));
-            System.out.println("  Prefix: " + Converter.infixToPrefix(infix));
-            System.out.println();
+        for (String infix : additionalInfixTests) {
+            System.out.println("\nTesting: " + infix);
+            converter.convertWithTable(infix);
         }
-    }
-    
-    /**
-     * Test expression evaluation methods
-     */
-    private static void testExpressionEvaluation() {
-        System.out.println("--- Expression Evaluation ---");
-        
-        String[] postfixExpressions = {
-            "23+",      // 2 + 3 = 5
-            "23*4+",    // 2 * 3 + 4 = 10
-            "234*+",    // 2 + 3 * 4 = 14
-            "52-3*",    // (5 - 2) * 3 = 9
-            "92/3+"     // 9 / 2 + 3 = 7.5
-        };
-        
-        for (String postfix : postfixExpressions) {
-            try {
-                double result = Converter.evaluatePostfix(postfix);
-                System.out.println("Postfix: " + postfix + " = " + result);
-            } catch (RuntimeException e) {
-                System.out.println("Error evaluating " + postfix + ": " + e.getMessage());
-            }
-        }
-        System.out.println();
-    }
-    
-    /**
-     * Test parentheses balancing method
-     */
-    private static void testParenthesesBalancing() {
-        System.out.println("--- Parentheses Balancing ---");
-        
-        String[] expressions = {
-            "(a+b)",
-            "((a+b)*c)",
-            "(a+b)*(c+d)",
-            "((a+b)",
-            "(a+b))",
-            "{[a+b]*c}",
-            "{[a+b]*c)",
-            "((()))",
-            "((())",
-            ""
-        };
-        
-        for (String expr : expressions) {
-            boolean balanced = Converter.areParenthesesBalanced(expr);
-            System.out.println("Expression: '" + expr + "' - Balanced: " + balanced);
-        }
-        System.out.println();
-    }
-    
-    /**
-     * Utility method to print a separator line
-     * 
-     * @param title The title to display in the separator
-     */
-    private static void printSeparator(String title) {
-        System.out.println("\n" + "=".repeat(50));
-        System.out.println(title);
-        System.out.println("=".repeat(50));
-    }
-    
-    /**
-     * Method to demonstrate error handling in stack operations
-     */
-    private static void demonstrateErrorHandling() {
-        System.out.println("--- Error Handling Demonstration ---");
-        
-        Stack<Integer> emptyStack = new Stack<>();
-        
-        try {
-            emptyStack.pop();
-        } catch (RuntimeException e) {
-            System.out.println("Caught expected error: " + e.getMessage());
-        }
-        
-        try {
-            emptyStack.peek();
-        } catch (RuntimeException e) {
-            System.out.println("Caught expected error: " + e.getMessage());
-        }
-        
-        try {
-            Converter.evaluatePostfix("2+");
-        } catch (RuntimeException e) {
-            System.out.println("Caught expected error: " + e.getMessage());
-        }
-        
-        System.out.println();
     }
 }
