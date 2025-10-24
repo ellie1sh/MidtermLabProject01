@@ -1,7 +1,7 @@
 /**
- * Converter class for various conversion operations using Stack data structure
- * This class provides methods for converting between different number systems,
- * expression evaluations, and other stack-based conversion algorithms
+ * Converter class for Infix to Postfix conversion and Postfix evaluation
+ * This class implements the algorithms specified in the PDF requirements
+ * for Data Structures Midterm Laboratory Project 1
  * 
  * @author [Student Name]
  * @version 1.0
