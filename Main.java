@@ -7,6 +7,9 @@ import java.util.Scanner;
  * Data Structures Midterm Laboratory Project 1
  * Activity: Conversion of infix to postfix expression and Evaluation of a postfix expression
  * 
+ * NOTE: This provides the basic menu structure. The actual conversion and evaluation
+ * logic in the Converter class needs to be implemented by the next coder.
+ * 
  * @author [Student Name]
  * @version 1.0
  * @since 2023
@@ -14,8 +17,6 @@ import java.util.Scanner;
 public class Main {
     
     private static Scanner scanner = new Scanner(System.in);
-    private static InfixToPostfixConverter converter = new InfixToPostfixConverter();
-    private static PostfixEvaluator evaluator = new PostfixEvaluator();
     
     /**
      * Main method - entry point of the program
@@ -129,6 +130,7 @@ public class Main {
     
     /**
      * Handle infix to postfix conversion
+     * TODO: Next coder needs to implement the actual conversion logic in Converter class
      */
     private static void handleInfixToPostfixConversion() {
         System.out.println("\n=== INFIX TO POSTFIX CONVERSION ===");
@@ -143,19 +145,17 @@ public class Main {
             return;
         }
         
-        InfixToPostfixConverter.ConversionResult result = converter.convertWithTable(infixExpression);
+        // TODO: Next coder should implement this method in Converter class
+        String result = Converter.convertInfixToPostfixWithTable(infixExpression);
         
-        if (result.isSuccess()) {
-            System.out.println("\nCONVERSION SUCCESSFUL!");
-            System.out.println("Postfix Expression: " + result.getPostfixExpression());
-        } else {
-            System.out.println("\nCONVERSION FAILED!");
-            System.out.println(result.getErrorMessage());
-        }
+        System.out.println("Result: " + result);
+        System.out.println("\nNOTE: The next coder needs to implement the full conversion algorithm");
+        System.out.println("with step-by-step table output as specified in the PDF.");
     }
     
     /**
      * Handle postfix expression evaluation
+     * TODO: Next coder needs to implement the actual evaluation logic in Converter class
      */
     private static void handlePostfixEvaluation() {
         System.out.println("\n=== POSTFIX EXPRESSION EVALUATION ===");
@@ -170,50 +170,59 @@ public class Main {
             return;
         }
         
-        PostfixEvaluator.EvaluationResult result = evaluator.evaluateWithTable(postfixExpression);
+        // TODO: Next coder should implement this method in Converter class
+        double result = Converter.evaluatePostfixWithTable(postfixExpression);
         
-        if (result.isSuccess()) {
-            System.out.println("\nEVALUATION SUCCESSFUL!");
-            System.out.printf("Final Result: %.2f%n", result.getResult());
-        } else {
-            System.out.println("\nEVALUATION FAILED!");
-            System.out.println(result.getErrorMessage());
-        }
+        System.out.println("Result: " + result);
+        System.out.println("\nNOTE: The next coder needs to implement the full evaluation algorithm");
+        System.out.println("with step-by-step table output as specified in the PDF.");
     }
     
     /**
      * Run test examples from the PDF
+     * TODO: Next coder should implement the actual algorithms to make these tests work
      */
     private static void runTestExamples() {
-        System.out.println("\n=== RUNNING TEST EXAMPLES FROM PDF ===");
+        System.out.println("\n=== TEST EXAMPLES FROM PDF ===");
+        System.out.println("NOTE: These are placeholder tests. The next coder needs to implement");
+        System.out.println("the actual conversion and evaluation algorithms in the Converter class.");
         
         // Test 1: Infix to Postfix conversion example from PDF
-        System.out.println("\n1. Testing Infix to Postfix Conversion:");
-        System.out.println("   Example from PDF: ((A-(B+C))*D)^(E+F)");
+        System.out.println("\n1. Infix to Postfix Conversion Test:");
+        System.out.println("   PDF Example: ((A-(B+C))*D)^(E+F)");
+        System.out.println("   Expected Result: A B C + - D * E F + ^");
         
         String pdfInfixExample = "((A-(B+C))*D)^(E+F)";
-        InfixToPostfixConverter.ConversionResult conversionResult = converter.convertWithTable(pdfInfixExample);
+        String conversionResult = Converter.convertInfixToPostfixWithTable(pdfInfixExample);
         
         // Test 2: Postfix evaluation example from PDF
-        System.out.println("\n2. Testing Postfix Evaluation:");
-        System.out.println("   Example from PDF: 6 2 3 + - 3 8 2 / + * 2 ^ 3 +");
+        System.out.println("\n2. Postfix Evaluation Test:");
+        System.out.println("   PDF Example: 6 2 3 + - 3 8 2 / + * 2 ^ 3 +");
+        System.out.println("   Expected Result: 52");
         
         String pdfPostfixExample = "6 2 3 + - 3 8 2 / + * 2 ^ 3 +";
-        PostfixEvaluator.EvaluationResult evaluationResult = evaluator.evaluateWithTable(pdfPostfixExample);
+        double evaluationResult = Converter.evaluatePostfixWithTable(pdfPostfixExample);
         
-        // Additional test cases
-        System.out.println("\n3. Additional Test Cases:");
+        // Additional test cases for the next coder
+        System.out.println("\n3. Additional Test Cases for Next Coder:");
         
         String[] additionalInfixTests = {
-            "A+B*C",
-            "(A+B)*C", 
-            "A+B*C-D",
-            "A^B+C*D"
+            "A+B*C",      // Expected: A B C * +
+            "(A+B)*C",    // Expected: A B + C *
+            "A+B*C-D",    // Expected: A B C * + D -
+            "A^B+C*D"     // Expected: A B ^ C D * +
         };
         
         for (String infix : additionalInfixTests) {
-            System.out.println("\nTesting: " + infix);
-            converter.convertWithTable(infix);
+            System.out.println("\nTest Input: " + infix);
+            String result = Converter.convertInfixToPostfixWithTable(infix);
         }
+        
+        System.out.println("\n=== INSTRUCTIONS FOR NEXT CODER ===");
+        System.out.println("1. Implement convertInfixToPostfixWithTable() in Converter class");
+        System.out.println("2. Implement evaluatePostfixWithTable() in Converter class");
+        System.out.println("3. Follow the exact algorithms from PDF pages 4-7");
+        System.out.println("4. Include step-by-step table output as shown in PDF examples");
+        System.out.println("5. Handle operator precedence and associativity correctly");
     }
 }
